@@ -1,20 +1,24 @@
-import React, { useEffect, useRef } from "react";
-import { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from 'react-redux';
+import { addTodo } from '../redux/store';
 
 
-type TodoInputProps = {
-    onAddTodo: (todo: string) => void;
-};
-
-const TodoInput: React.FC<TodoInputProps> = ({ onAddTodo }) => {
+const TodoInput: React.FC = () => {
 
     const [todoText, setTodoText] = useState('');
 
-    const handleOnAddTodo = () => {
+    const dispatch = useDispatch();
+
+    const handleAddTodo = () => {
+        // controllo se l'input contiene una stringa composta da spazi vuoti
         if (todoText.trim()) {
-            onAddTodo(todoText.trim());
+            // dispatch della action addTodo nello store
+            dispatch(addTodo(todoText));
+            // elimino eventuali spazi vuoti all'inizio e alla fine della stringa
+            addTodo(todoText.trim());
         }
 
+        // "azzero" il contenuto dell'input
         setTodoText('');
     }
 
@@ -35,12 +39,12 @@ const TodoInput: React.FC<TodoInputProps> = ({ onAddTodo }) => {
                 value={todoText}
                 onChange={(e) => setTodoText(e.target.value)}
                 onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleOnAddTodo();
+                    if (e.key === 'Enter') handleAddTodo(); //invoca la funzione al down del tasto enter
                 }}
                 ref={refInput}
             />
 
-            <button onClick={handleOnAddTodo}>Add todo</button>
+            <button onClick={handleAddTodo}>Add todo</button>
         </>
     );
 

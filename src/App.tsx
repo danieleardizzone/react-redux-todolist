@@ -5,19 +5,9 @@ import { addTodo, completedTodo, removeTodo, RootState, unCompleteTodo } from '.
 import TodoInput from './Components/TodoInput';
 
 function App() {
-  // const [todo, setTodo] = useState('');
 
   const todos = useSelector((state: RootState) => state.todos);
   const dispatch = useDispatch();
-
-  //   const crossedTodo = (event: handleCompletedTodo) {
-  //     const element = event.target;
-  //     element.classList.toggle("crossed-line");
-  // };
-
-  const handleAddTodo = (text: string) => {
-    dispatch(addTodo(text));
-  }
 
   const handleCompletedTodo = (index: number) => {
     dispatch(completedTodo(index));
@@ -34,7 +24,7 @@ function App() {
   return (
     <div className="App">
 
-      <TodoInput onAddTodo={handleAddTodo} />
+      <TodoInput />
 
 
       <ul>
