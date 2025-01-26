@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTodo, completedTodo, removeTodo, RootState, unCompleteTodo } from './redux/store';
+import TodoInput from './Components/TodoInput';
 
 function App() {
-  const [todo, setTodo] = useState('');
+  // const [todo, setTodo] = useState('');
 
   const todos = useSelector((state: RootState) => state.todos);
   const dispatch = useDispatch();
@@ -14,9 +15,8 @@ function App() {
   //     element.classList.toggle("crossed-line");
   // };
 
-  const handleAddTodo = () => {
-    dispatch(addTodo(todo));
-    setTodo('');
+  const handleAddTodo = (text: string) => {
+    dispatch(addTodo(text));
   }
 
   const handleCompletedTodo = (index: number) => {
@@ -34,13 +34,8 @@ function App() {
   return (
     <div className="App">
 
-      <input
-        type="text"
-        value={todo}
-        onChange={(e) => setTodo(e.target.value)}
-      />
+      <TodoInput onAddTodo={handleAddTodo} />
 
-      <button onClick={handleAddTodo}>Add todo</button>
 
       <ul>
         {todos.map((todo, index) => (
