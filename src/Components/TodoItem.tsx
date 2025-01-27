@@ -3,36 +3,35 @@ import { useDispatch } from 'react-redux';
 import { completedTodo, removeTodo, unCompleteTodo } from '../redux/store';
 
 type TodoItemProps = {
-    index: number;
-    todo: { text: string; completed: boolean };
+    todo: { id: number, text: string; completed: boolean };
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ index, todo }) => {
+const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
 
     const dispatch = useDispatch();
 
-    const handleCompletedTodo = (index: number) => {
-        dispatch(completedTodo(index));
+    const handleCompletedTodo = () => {
+        dispatch(completedTodo(todo.id));
     }
 
-    const handleUnCompleteTodo = (index: number) => {
-        dispatch(unCompleteTodo(index));
+    const handleUnCompleteTodo = () => {
+        dispatch(unCompleteTodo(todo.id));
     }
 
-    const handleRemoveTodo = (index: number) => {
-        dispatch(removeTodo(index));
+    const handleRemoveTodo = () => {
+        dispatch(removeTodo(todo.id));
     }
 
     return (
-        <li key={index}>
+        <li>
 
             <span className={`todo-text ${todo.completed ? 'completed-todo' : ''}`}>
                 {todo.text}
             </span>
 
-            <button onClick={() => !todo.completed ? handleCompletedTodo(index) : handleUnCompleteTodo(index)}>{!todo.completed ? 'completed' : 'un complete'}</button>
+            <button onClick={() => !todo.completed ? handleCompletedTodo() : handleUnCompleteTodo()}>{!todo.completed ? 'completed' : 'un complete'}</button>
 
-            <button onClick={() => handleRemoveTodo(index)}>delete</button>
+            <button onClick={() => handleRemoveTodo()}>delete</button>
         </li>
     )
 

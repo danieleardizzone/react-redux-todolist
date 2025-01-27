@@ -7,11 +7,13 @@ const TodoList: React.FC = () => {
 
     const todos = useSelector((state: RootState) => state.todos);
 
+    console.log(todos);
+
     return (
 
         <ul>
-            {todos.map((todo, index) => (
-                <TodoItem index={index} todo={todo} />
+            {todos.map((todo) => (
+                <TodoItem key={todo.id} todo={todo} />
             ))}
         </ul>
 

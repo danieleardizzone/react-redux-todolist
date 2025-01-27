@@ -1,11 +1,14 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type Todo = {
+    id: number,
     text: string,
     completed: boolean
 };
 
 type TodoState = Todo[];
+
+let nextTodoId = 0;
 
 const todoSlice = createSlice({
 
@@ -15,16 +18,28 @@ const todoSlice = createSlice({
 
     reducers: {
         addTodo: (state, action: PayloadAction<string>) => {
-            state.push({ text: action.payload, completed: false });
+            state.push({
+                id: nextTodoId,
+                text: action.payload,
+                completed: false
+            });
+
+            nextTodoId++;
         },
         completedTodo: (state, action: PayloadAction<number>) => {
-            state[action.payload].completed = true;
+            const todo = state.find((todo) => todo.id === action.payload);
+            if (todo) {
+                todo.completed = true;
+            }
         },
         unCompleteTodo: (state, action: PayloadAction<number>) => {
-            state[action.payload].completed = false;
+            const todo = state.find((todo) => todo.id === action.payload);
+            if (todo) {
+                todo.completed = false;
+            }
         },
         removeTodo: (state, action: PayloadAction<number>) => {
-            state.splice(action.payload, 1);
+            return state.filter((todo) => todo.id !== action.payload);
         },
     }
 
